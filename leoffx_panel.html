@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leoffx Panel</title>
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #16233d, #05070d 65%);
+    color: white;
+}
+.panel {
+    width: 360px;
+    padding: 25px;
+    border-radius: 20px;
+    background: rgba(12, 16, 27, 0.96);
+    border: 1px solid rgba(0, 220, 255, 0.35);
+    box-shadow:
+        0 0 30px rgba(0, 200, 255, 0.15),
+        inset 0 0 25px rgba(0, 0, 0, 0.5);
+}
+.title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #00d9ff;
+    text-shadow: 0 0 15px rgba(0, 217, 255, 0.7);
+    margin-bottom: 5px;
+}
+.subtitle {
+    text-align: center;
+    color: #7d899d;
+    font-size: 12px;
+    margin-bottom: 25px;
+}
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+.label {
+    font-size: 15px;
+    font-weight: bold;
+}
+/* ON/OFF SWITCH */
+.switch {
+    position: relative;
+    width: 55px;
+    height: 29px;
+}
+.switch input {
+    display: none;
+}
+.slider {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    background: #252c3b;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+.slider::before {
+    content: "";
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    left: 4px;
+    top: 4px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+input:checked + .slider {
+    background: #00d9ff;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.7);
+}
+input:checked + .slider::before {
+    transform: translateX(26px);
+}
+/* STATUS */
+.status {
+    text-align: center;
+    margin-top: -12px;
+    margin-bottom: 25px;
+    font-size: 12px;
+    color: #ff4757;
+}
+.status.active {
+    color: #00ff9d;
+}
+/* TARGET */
+.target-box {
+    padding: 18px;
+    border-radius: 14px;
+    background: #0b101c;
+    border: 1px solid #1b2638;
+    margin-bottom: 20px;
+}
+.target-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.target-value {
+    color: #00d9ff;
+    font-size: 22px;
+    font-weight: bold;
+}
+input[type="range"] {
+    width: 100%;
+    appearance: none;
+    height: 6px;
+    border-radius: 10px;
+    background: #252e40;
+    outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #00d9ff;
+    cursor: pointer;
+    box-shadow: 0 0 12px #00d9ff;
+}
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    color: #69758a;
+    font-size: 11px;
+    margin-top: 8px;
+}
+/* STATS */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.stat {
+    padding: 15px 5px;
+    text-align: center;
+    background: #0b101c;
+    border: 1px solid #1b2638;
+    border-radius: 12px;
+}
+.stat-number {
+    display: block;
+    color: #00d9ff;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.stat-name {
+    color: #69758a;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+/* BUTTONS */
+button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    background: #151d2c;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+button:hover {
+    background: #202b40;
+    transform: translateY(-1px);
+}
+.reset {
+    border: 1px solid #26344b;
+}
+/* OPEN FREE FIRE */
+.open-game {
+    margin-top: 10px;
+    background: linear-gradient(135deg, #00d9ff, #0066ff);
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.25);
+}
+.open-game:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+}
+/* NOTE */
+.note {
+    text-align: center;
+    color: #59667b;
+    font-size: 10px;
+    margin-top: 18px;
+    line-height: 1.5;
+}
+</style>
+</head>
+<body>
+<div class="panel">
+    <div class="title">LEOFFX PANEL</div>
+    <div class="subtitle">
+        AIM COMPANION
+    </div>
+    <!-- ON / OFF -->
+    <div class="row">
+        <span class="label">
+            Aim Assistant
+        </span>
+        <label class="switch">
+            <input
+                type="checkbox"
+                id="power"
+            >
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div id="status" class="status">
+        ● OFFLINE
+    </div>
+
+    <!-- HEAD TRACKING -->
+    <div class="row">
+        <span class="label">Head Tracking</span>
+        <label class="switch">
+            <input type="checkbox" id="headTracking">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <!-- AIMLOCK DEMO -->
+    <div class="row">
+        <span class="label">Aimlock</span>
+        <label class="switch">
+            <input type="checkbox" id="aimlock">
+            <span class="slider"></span>
+        </label>
+    </div>
+    <!-- HEADSHOT TARGET -->
+    <div class="target-box">
+        <div class="target-header">
+            <span>
+                Headshot Target
+            </span>
+            <span
+                id="targetValue"
+                class="target-value"
+            >
+                70%
+            </span>
+        </div>
+        <input
+            type="range"
+            id="targetSlider"
+            min="40"
+            max="100"
+            value="70"
+        >
+        <div class="range-labels">
+            <span>40%</span>
+            <span>80%</span>
+        </div>
+    </div>
+    <!-- STATISTICS -->
+    
+    <!-- OPEN FREE FIRE -->
+    <button
+        class="open-game"
+        id="openGame"
+    >
+        🎮 OPEN FREE FIRE
+    </button>
+    <div class="note">
+        This is a standalone companion/demo interface. It does not modify,
+        inject into, or automate the game.
+    </div>
+</div>
+<script>
+/* ================================
+   ELEMENTS
+================================ */
+const power =
+    document.getElementById("power");
+const status =
+    document.getElementById("status");
+const slider =
+    document.getElementById("targetSlider");
+const targetValue =
+    document.getElementById("targetValue");
+const openGame =
+    document.getElementById("openGame");
+const headTracking =
+    document.getElementById("headTracking");
+const aimlock =
+    document.getElementById("aimlock");
+/* ================================
+   ON / OFF
+================================ */
+power.addEventListener("change", function () {
+    if (power.checked) {
+        status.textContent =
+            "● ONLINE";
+        status.classList.add("active");
+    } else {
+        status.textContent =
+            "● OFFLINE";
+        status.classList.remove("active");
+    }
+});
+/* ================================
+   HEAD TRACKING / AIMLOCK DEMO
+================================ */
+headTracking.addEventListener("change", function () {
+    headTracking.setAttribute("aria-label",
+        this.checked ? "Head Tracking enabled" : "Head Tracking disabled");
+});
+
+aimlock.addEventListener("change", function () {
+    aimlock.setAttribute("aria-label",
+        this.checked ? "Aimlock enabled" : "Aimlock disabled");
+});
+
+/* ================================
+   HEADSHOT TARGET
+================================ */
+slider.addEventListener("input", function () {
+    targetValue.textContent =
+        slider.value + "%";
+});
+/* ================================
+   STATISTICS
+================================ */
+else {
+        rateElement.textContent =
+            "0%";
+    }
+}
+/* ================================
+   DEMO SHOT
+================================ */
+updateStats();
+}
+/* ================================
+   OPEN FREE FIRE
+================================ */
+openGame.addEventListener(
+    "click",
+    function () {
+        window.location.href =
+            "freefire://";
+    }
+);
+</script>
+</body>
+</html>
